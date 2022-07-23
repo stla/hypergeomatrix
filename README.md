@@ -42,7 +42,7 @@ and $\alpha$ is omitted from the notation, implicitely assumed to be $2$.
 Koev and Edelman (2006) provided an efficient algorithm for the evaluation 
 of the truncated series 
 
-$$\sideset{\_p^m}{\_q^{(\alpha)}}F \left(\begin{matrix} a\_1, \ldots, a\_p \\ b\_1, \ldots, b\_q\end{matrix}; X\right) = \sum\_{k=0}^{m}\sum\_{\kappa \vdash k} \frac{{(a\_1)}\_{\kappa}^{(\alpha)} \cdots {(a\_p)}\_{\kappa}^{(\alpha)}} {{(b\_1)}\_{\kappa}^{(\alpha)} \cdots {(b\_q)}\_{\kappa}^{(\alpha)}} 
+$$\sideset{\_p^m}{\_q^{(\alpha)}}F \left(\begin{matrix} a\_1, \ldots, a\_p \\\\ b\_1, \ldots, b\_q\end{matrix}; X\right) = \sum\_{k=0}^{m}\sum\_{\kappa \vdash k} \frac{{(a\_1)}\_{\kappa}^{(\alpha)} \cdots {(a\_p)}\_{\kappa}^{(\alpha)}} {{(b\_1)}\_{\kappa}^{(\alpha)} \cdots {(b\_q)}\_{\kappa}^{(\alpha)}} 
 \frac{C\_{\kappa}^{(\alpha)}(X)}{k!}.$$
 
 Hereafter, $m$ is called the *truncation weight of the summation* 
@@ -54,7 +54,7 @@ of $X$.
 
 For example, to compute
 
-$$\sideset{\_2^{15}}{\_3^{(2)}}F \left(\begin{matrix} 3, 4 \\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)$$
+$$\sideset{\_2^{15}}{\_3^{(2)}}F \left(\begin{matrix} 3, 4 \\\\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)$$
 
 you have to enter 
 
@@ -71,10 +71,23 @@ The user can enter any list of real or complex numbers for the eigen values.
 
 The library to use **Gaussian rational numbers**, i.e. complex numbers with 
 a rational real part and a rational imaginary part. The Gaussian rational 
-number $a + ib$ is obtained with `a +: b`, e.g. `(2%3) +: (5%2)`.
+number $a + ib$ is obtained with `a +: b`, e.g. `(2%3) +: (5%2)`. The imaginary 
+unit usually denoted by $i$ is represented by `e(4)`:
 
+```haskell
+ghci> import Math.HypergeoMatrix
+ghci> import Data.Ratio
+ghci> alpha = 2%1
+ghci> a = (2%7) +: (1%2)
+ghci> b = (1%2) +: (0%1)
+ghci> c = (2%1) +: (3%1)
+ghci> x1 = (1%3) +: (1%4)
+ghci> x2 = (1%5) +: (1%6)
+ghci> hypergeomat 3 alpha [a, b] [c] [x1, x2]
+26266543409/25159680000 + 155806638989/3698472960000*e(4)
+```
 
-### References
+## References
 
 - Plamen Koev and Alan Edelman. 
 *The efficient evaluation of the hypergeometric function of a matrix argument*.
