@@ -9,8 +9,6 @@ import           Data.Sequence                (Seq, index, update, (!?), (|>))
 import qualified Data.Sequence                as S
 import           Math.HypergeoMatrix.Internal 
 
-
-
 hypergeoI :: forall a. (Eq a, Fractional a, BaseFrac a)
   => Int -> BaseFracType a -> [a] -> [a] -> Int -> a -> a
 hypergeoI m alpha a b n x =
@@ -132,13 +130,15 @@ jack alpha x dico k beta c t mu jarray kappa nkappa = do
 
 -- | Hypergeometric function of a matrix argument.
 -- Actually the matrix argument is given by the eigenvalues of the matrix.
-hypergeomat ::
-     forall a. (Eq a, Fractional a, BaseFrac a)
-  => Int            -- truncation weight
-  -> BaseFracType a -- alpha parameter (usually 2)
-  -> [a]            -- "upper" parameters
-  -> [a]            -- "lower" parameters
-  -> [a]            -- variables (the eigenvalues)
+-- For a type `a` of real numbers, `BaseFracType a = a`. If `a = Complex b` 
+-- is a type of complex numbers, then `BaseFracType a = b`. Thus `alpha` 
+-- parameter cannot be a complex number.
+hypergeomat :: forall a. (Eq a, Fractional a, BaseFrac a)
+  => Int -- ^ truncation weight
+  -> BaseFracType a -- ^ alpha parameter (usually 2)
+  -> [a] -- ^ upper parameters
+  -> [a] -- ^ lower parameters
+  -> [a] -- ^ variables (the eigenvalues)
   -> IO a
 hypergeomat m alpha a b x = do
   let n = length x
