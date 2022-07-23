@@ -42,6 +42,6 @@ main = defaultMain $
           a = 2 :: Double
       h <- hypergeomat 35 2 [a] [] x
       assertEqual ""
-        (approx 4 (product(map (\u -> 1-u) x)**(-a)))
+        (approx 4 (product(map (1 -) x)**(-a)))
         (approx 4 h)
   ]
