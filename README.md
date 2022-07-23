@@ -13,7 +13,7 @@ The inner sum is over the integer partitions $\kappa$ of $k$ (which we also
 denote by $|\kappa| = k$). The symbol ${(\cdot)}_{\kappa}^{(\alpha)}$ is the 
 *generalized Pochhammer symbol*, defined by
 
-$${(c)}_{\kappa}^{(\alpha)} = \prod_{i=1}^{\ell}\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)$$
+$${(c)}_{\kappa}^{(\alpha)} = {\prod_{i=1}}^{\ell}\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)$$
 
 when $\kappa = (\kappa_1, \ldots, \kappa_\ell)$. 
 Finally, $C_{\kappa}^{(\alpha)}$ is a *Jack function*. 
@@ -42,7 +42,7 @@ and $\alpha$ is omitted from the notation, implicitely assumed to be $2$.
 Koev and Edelman (2006) provided an efficient algorithm for the evaluation 
 of the truncated series 
 
-$${{}_p}^mF_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \sum_{k=0}^{m}\sum_{\kappa \vdash k} \frac{{(a_1)}_{\kappa}^{(\alpha)} \cdots {(a_p)}_{\kappa}^{(\alpha)}} {{(b_1)}_{\kappa}^{(\alpha)} \cdots {(b_q)}_{\kappa}^{(\alpha)}} 
+$${{}_p}^mF_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \Sigma_{k=0}^{m}\sum_{\kappa \vdash k} \frac{{(a_1)}_{\kappa}^{(\alpha)} \cdots {(a_p)}_{\kappa}^{(\alpha)}} {{(b_1)}_{\kappa}^{(\alpha)} \cdots {(b_q)}_{\kappa}^{(\alpha)}} 
 \frac{C_{\kappa}^{(\alpha)}(X)}{k!}.$$
 
 Hereafter, $m$ is called the *truncation weight of the summation* 
@@ -54,7 +54,7 @@ of $X$.
 
 For example, to compute
 
-$${{}_2}^{15} F_3^{(2)} \left(\begin{matrix} 3, 4 \\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)$$
+$$\sideset{_2^{15}}{_3^{(2)}}F \left(\begin{matrix} 3, 4 \\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)$$
 
 you have to enter 
 
