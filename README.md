@@ -7,7 +7,7 @@ complex numbers, possibly empty, $\alpha > 0$ and $X$ a real symmetric or a
 complex Hermitian matrix. 
 The corresponding *hypergeometric function of a matrix argument* is defined by 
 
-$${}\_pF\_q^{(\alpha)} \left(\begin{matrix} a\_1, \ldots, a\_p \\ b\_1, \ldots, b\_q\end{matrix}; X\right) = \sum\_{k=0}^{\infty}\sum\_{\kappa \vdash k} \frac{{(a\_1)}\_{\kappa}^{(\alpha)} \cdots {(a\_p)}\_{\kappa}^{(\alpha)}} {{(b\_1)}\_{\kappa}^{(\alpha)} \cdots {(b\_q)}\_{\kappa}^{(\alpha)}} \frac{C\_{\kappa}^{(\alpha)}(X)}{k!}.$$
+$${}\_pF\_q^{(\alpha)} \left(\begin{matrix} a\_1, \ldots, a\_p \\\\ b\_1, \ldots, b\_q\end{matrix}; X\right) = \sum\_{k=0}^{\infty}\sum\_{\kappa \vdash k} \frac{{(a\_1)}\_{\kappa}^{(\alpha)} \cdots {(a\_p)}\_{\kappa}^{(\alpha)}} {{(b\_1)}\_{\kappa}^{(\alpha)} \cdots {(b\_q)}\_{\kappa}^{(\alpha)}} \frac{C\_{\kappa}^{(\alpha)}(X)}{k!}.$$
 
 The inner sum is over the integer partitions $\kappa$ of $k$ (which we also 
 denote by $|\kappa| = k$). The symbol ${(\cdot)}\_{\kappa}^{(\alpha)}$ is the 
