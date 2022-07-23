@@ -130,6 +130,8 @@ jack alpha x dico k beta c t mu jarray kappa nkappa = do
       entry2 <- readArray jarray (_nkappa dico mu, t - 1)
       writeArray jarray (nkappa, t) (entry1 + beta * x !! (t - 1) ^ c * entry2)
 
+-- | Hypergeometric function of a matrix argument.
+-- Actually the matrix argument is given by the eigenvalues of the matrix.
 hypergeomat ::
      forall a. (Eq a, Fractional a, BaseFrac a)
   => Int            -- truncation weight
