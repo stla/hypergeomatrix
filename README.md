@@ -13,7 +13,7 @@ The inner sum is over the integer partitions $\kappa$ of $k$ (which we also
 denote by $|\kappa| = k$). The symbol ${(\cdot)}_{\kappa}^{(\alpha)}$ is the 
 *generalized Pochhammer symbol*, defined by
 
-$${(c)}_{\kappa}^{(\alpha)} = \sideset{}{_{i=1}^{\ell}}\prod\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)$$
+$${(c)}^{(\alpha)}_{\kappa} = {\sideset{}{_{i=1}^{\ell}}\prod}\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)$$
 
 when $\kappa = (\kappa_1, \ldots, \kappa_\ell)$. 
 Finally, $C_{\kappa}^{(\alpha)}$ is a *Jack function*. 
