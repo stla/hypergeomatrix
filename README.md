@@ -6,23 +6,23 @@ Let $(a_1, \ldots, a_p)$ and $(b_1, \ldots, b_q)$ be two vectors of real or
 complex numbers, possibly empty, $\alpha > 0$ and $X$ a real symmetric or a 
 complex Hermitian matrix. 
 The corresponding *hypergeometric function of a matrix argument* is defined by 
-```math
-{}_pF_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \sum_{k=0}^\infty\sum_{\kappa \vdash k} \frac{{(a_1)}_\kappa^{(\alpha)} \cdots {(a_p)}_\kappa^{(\alpha)}} {{(b_1)}_\kappa^{(\alpha)} \cdots {(b_q)}_\kappa^{(\alpha)}} \frac{C_\kappa^{(\alpha)}(X)}{k!}.
-```
+
+$${}_pF_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \sum_{k=0}^\infty\sum_{\kappa \vdash k} \frac{{(a_1)}_\kappa^{(\alpha)} \cdots {(a_p)}_\kappa^{(\alpha)}} {{(b_1)}_\kappa^{(\alpha)} \cdots {(b_q)}_\kappa^{(\alpha)}} \frac{C_\kappa^{(\alpha)}(X)}{k!}.$$
+
 The inner sum is over the integer partitions $\kappa$ of $k$ (which we also 
 denote by $|\kappa| = k$). The symbol ${(\cdot)}_\kappa^{(\alpha)}$ is the 
 *generalized Pochhammer symbol*, defined by
-```math
-{(c)}_\kappa^{(\alpha)} = \prod_{i=1}^\ell\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)
-```
+
+$${(c)}_\kappa^{(\alpha)} = \prod_{i=1}^\ell\prod_{j=1}^{\kappa_i} \left(c - \frac{i-1}{\alpha} + j-1\right)$$
+
 when $\kappa = (\kappa_1, \ldots, \kappa_\ell)$. 
 Finally, $C_\kappa^{(\alpha)}$ is a *Jack function*. 
 Given an integer partition $\kappa$ and $\alpha > 0$, and a 
 real symmetric or complex Hermitian matrix $X$ of order $n$, 
 the Jack function 
-```math
-C_\kappa^{(\alpha)}(X) = C_\kappa^{(\alpha)}(x_1, \ldots, x_n)
-```
+
+$$C_\kappa^{(\alpha)}(X) = C_\kappa^{(\alpha)}(x_1, \ldots, x_n)$$
+
 is a symmetric homogeneous polynomial of degree $|\kappa|$ in the 
 eigen values $x_1$, $\ldots$, $x_n$ of $X$. 
 
@@ -41,10 +41,9 @@ and $\alpha$ is omitted from the notation, implicitely assumed to be $2$.
 
 Koev and Edelman (2006) provided an efficient algorithm for the evaluation 
 of the truncated series 
-```math
-{{}_{p\!\!\!\!\!}}^m\! F_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \sum_{k=0}^m\sum_{\kappa \vdash k} \frac{{(a_1)}_\kappa^{(\alpha)} \cdots {(a_p)}_\kappa^{(\alpha)}} {{(b_1)}_\kappa^{(\alpha)} \cdots {(b_q)}_\kappa^{(\alpha)}} 
-\frac{C_\kappa^{(\alpha)}(X)}{k!}.
-```
+
+$${{}_{p\!\!\!\!\!}}^m\! F_q^{(\alpha)} \left(\begin{matrix} a_1, \ldots, a_p \\ b_1, \ldots, b_q\end{matrix}; X\right) = \sum_{k=0}^m\sum_{\kappa \vdash k} \frac{{(a_1)}_\kappa^{(\alpha)} \cdots {(a_p)}_\kappa^{(\alpha)}} {{(b_1)}_\kappa^{(\alpha)} \cdots {(b_q)}_\kappa^{(\alpha)}} 
+\frac{C_\kappa^{(\alpha)}(X)}{k!}.$$
 
 Hereafter, $m$ is called the *truncation weight of the summation* 
 (because $|\kappa|$ is called the weight of $\kappa$), the vector 
@@ -54,9 +53,9 @@ The user has to supply the vector $(x_1, \ldots, x_n)$ of the eigenvalues
 of $X$. 
 
 For example, to compute
-```math
-{{}_{2\!\!\!\!\!}}^{15}\! F_3^{(2)} \left(\begin{matrix} 3, 4 \\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)
-```
+
+$${{}_{2\!\!\!\!\!}}^{15}\! F_3^{(2)} \left(\begin{matrix} 3, 4 \\ 5, 6, 7\end{matrix}; 0.1, 0.4\right)$$
+
 you have to enter 
 
 ```haskell
