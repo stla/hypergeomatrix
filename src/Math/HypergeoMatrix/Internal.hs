@@ -1,11 +1,34 @@
 {-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE DefaultSignatures    #-}
+{-# LANGUAGE TypeFamilies         #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+
 module Math.HypergeoMatrix.Internal where
-import           Control.Applicative ((<$>))
+import           Data.Complex
+import           Data.Ratio
 import           Data.Maybe
 import           Data.Sequence       (Seq ((:<|), (:|>), Empty), elemIndexL,
                                       index, (!?), (><), (|>))
 import qualified Data.Sequence       as S
+import           Math.HypergeoMatrix.Gaussian
+
+class BaseFrac a where
+  type family BaseFracType a
+  type BaseFracType a = a -- Default type family instance (unless overridden)
+  inject :: BaseFracType a -> a
+  default inject :: BaseFracType a ~ a => BaseFracType a -> a
+  inject = id
+
+instance Integral a => BaseFrac (Ratio a)
+instance BaseFrac Float
+instance BaseFrac Double
+instance BaseFrac GaussianRational where
+  type BaseFracType GaussianRational = Rational
+  inject x = x +: 0
+instance Num a => BaseFrac (Complex a) where
+  type BaseFracType (Complex a) = a
+  inject x = x :+ 0
 
 _diffSequence :: Seq Int -> Seq Int
 _diffSequence (x :<| ys@(y :<| _)) = (x - y) :<| _diffSequence ys
@@ -20,54 +43,59 @@ _dualPartition xs = go 0 (_diffSequence xs) S.empty
     finish !j (k :<| ks) = S.replicate k j >< finish (j - 1) ks
     finish _ Empty       = S.empty
 
-_betaratio :: Fractional a => Seq Int -> Seq Int -> Int -> a -> a
-_betaratio kappa mu k alpha = alpha * prod1 * prod2 * prod3
+_betaratio :: (Fractional a, BaseFrac a)
+  => Seq Int -> Seq Int -> Int -> BaseFracType a -> a
+_betaratio kappa mu k alpha = alpha' * prod1 * prod2 * prod3
   where
-    t = fromIntegral k - alpha * fromIntegral (mu `index` (k - 1))
+    alpha' = inject alpha
+    t = fromIntegral k - alpha' * fromIntegral (mu `index` (k - 1))
     ss = S.fromList [1 .. k - 1]
     sss = ss |> k
     u =
       S.zipWith
-        (\s kap -> t + 1 - fromIntegral s + alpha * fromIntegral kap)
+        (\s kap -> t + 1 - fromIntegral s + alpha' * fromIntegral kap)
         sss (S.take k kappa)
     v =
       S.zipWith
-        (\s m -> t - fromIntegral s + alpha * fromIntegral m)
+        (\s m -> t - fromIntegral s + alpha' * fromIntegral m)
         ss (S.take (k - 1) mu)
     l = mu `index` (k - 1) - 1
     mu' = S.take l (_dualPartition mu)
     w =
       S.zipWith
-        (\s m -> fromIntegral m - t - alpha * fromIntegral s)
+        (\s m -> fromIntegral m - t - alpha' * fromIntegral s)
         (S.fromList [1 .. l]) mu'
-    prod1 = product $ fmap (\x -> x / (x + alpha - 1)) u
-    prod2 = product $ fmap (\x -> (x + alpha) / x) v
-    prod3 = product $ fmap (\x -> (x + alpha) / x) w
+    prod1 = product $ fmap (\x -> x / (x + alpha' - 1)) u
+    prod2 = product $ fmap (\x -> (x + alpha') / x) v
+    prod3 = product $ fmap (\x -> (x + alpha') / x) w
 
 
-_T :: (Fractional a, Eq a) => a -> [a] -> [a] -> Seq Int -> a
+_T :: (Fractional a, Eq a, BaseFrac a)
+   => BaseFracType a -> [a] -> [a] -> Seq Int -> a
 _T alpha a b kappa
   | S.null kappa || kappa !? 0 == Just 0 = 1
   | prod1_den == 0 = 0
   | otherwise = prod1_num/prod1_den * prod2 * prod3
   where
+    alpha' = inject alpha
     lkappa = S.length kappa - 1
     kappai = kappa `index` lkappa
     kappai' = fromIntegral kappai
     i = fromIntegral lkappa
-    c = kappai' - 1 - i / alpha
-    d = kappai' * alpha - i - 1
+    c = kappai' - 1 - i / alpha'
+    d = kappai' * alpha' - i - 1
     s = fmap fromIntegral (S.fromList [1 .. kappai - 1])
     kappa' = fromIntegral <$> S.take kappai (_dualPartition kappa)
-    e = S.zipWith (\x y -> d - x * alpha + y) s kappa'
+    e = S.zipWith (\x y -> d - x * alpha' + y) s kappa'
     g = fmap (+ 1) e
     s' = fmap fromIntegral (S.fromList [1 .. lkappa])
-    f = S.zipWith (\x y -> y * alpha - x - d) s' (fmap fromIntegral kappa)
-    h = fmap (+ alpha) f
+    f = S.zipWith (\x y -> y * alpha' - x - d) s' (fmap fromIntegral kappa)
+    h = fmap (+ alpha') f
     l = S.zipWith (*) h f
     prod1_num = product (fmap (+ c) a)
     prod1_den = product (fmap (+ c) b)
-    prod2 = product $ S.zipWith (\x y -> (y - alpha) * x / y / (x + alpha)) e g
+    prod2 =
+      product $ S.zipWith (\x y -> (y - alpha') * x / y / (x + alpha')) e g
     prod3 = product $ S.zipWith3 (\x y z -> (z - x) / (z + y)) f h l
 
 a008284 :: [[Int]]
@@ -102,7 +130,7 @@ _dico pmn m = go False S.empty
                                in inner
                                     (i + 1)
                                     (a ++ [end + 1 .. end + l])
-                                    (b ++ map (\x -> bi - x) range1l)
+                                    (b ++ map (bi -) range1l)
                                     (c ++ range1l)
                                     (end + l)
                                     dd
@@ -120,24 +148,3 @@ cleanPart kappa =
   in if isJust i
        then S.take (fromJust i) kappa
        else kappa
-
-hypergeoI :: forall a. (Eq a, Fractional a)
-  => Int -> a -> [a] -> [a] -> Int -> a -> a
-hypergeoI m alpha a b n x =
-  1 + summation' 0 1 m []
-  where
-  summation' :: Fractional a => Int -> a -> Int -> [Int] -> a
-  summation' i z j kappa = go 1 z 0
-    where
-    go :: Int -> a -> a -> a
-    go kappai zz s
-      | i == 0 && kappai > j || i>0 && kappai > min (kappa!!(i-1)) j = s
-      | otherwise = go (kappai + 1) z' s''
-      where
-      kappa' = kappa ++ [kappai]
-      t = _T alpha a b (S.fromList $ filter (> 0) kappa') -- inutile de filtrer
-      z' = zz * x * (fromIntegral (n-i) + alpha * (fromIntegral kappai-1)) * t
-      s' = if j > kappai && i <= n
-        then s + summation' (i+1) z' (j-kappai) kappa'
-        else s
-      s'' = s' + z'

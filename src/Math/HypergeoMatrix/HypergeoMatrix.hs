@@ -1,89 +1,14 @@
-{-# LANGUAGE BangPatterns        #-}
-{-# LANGUAGE DefaultSignatures   #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeFamilies        #-}
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
+
 module Math.HypergeoMatrix.HypergeoMatrix (hypergeomat) where
 import           Control.Monad                (when)
 import           Data.Array                   hiding (index)
 import           Data.Array.IO                hiding (index)
-import           Data.Complex
-import           Data.Ratio
 import           Data.Sequence                (Seq, index, update, (!?), (|>))
 import qualified Data.Sequence                as S
-import           Math.HypergeoMatrix.Gaussian
-import           Math.HypergeoMatrix.Internal hiding (hypergeoI, _T, _betaratio)
+import           Math.HypergeoMatrix.Internal 
 
-class BaseFrac a where
-  type family BaseFracType a
-  type BaseFracType a = a -- Default type family instance (unless overridden)
-  inject :: BaseFracType a -> a
-  default inject :: BaseFracType a ~ a => BaseFracType a -> a
-  inject = id
-
-instance Integral a => BaseFrac (Ratio a)
-instance BaseFrac Float
-instance BaseFrac Double
-instance BaseFrac GaussianRational where
-  type BaseFracType GaussianRational = Rational
-  inject x = x +: 0
-instance Num a => BaseFrac (Complex a) where
-  type BaseFracType (Complex a) = a
-  inject x = x :+ 0
-
-_betaratio :: (Fractional a, BaseFrac a)
-  => Seq Int -> Seq Int -> Int -> BaseFracType a -> a
-_betaratio kappa mu k alpha = alpha' * prod1 * prod2 * prod3
-  where
-    alpha' = inject alpha
-    t = fromIntegral k - alpha' * fromIntegral (mu `index` (k - 1))
-    ss = S.fromList [1 .. k - 1]
-    sss = ss |> k
-    u =
-      S.zipWith
-        (\s kap -> t + 1 - fromIntegral s + alpha' * fromIntegral kap)
-        sss (S.take k kappa)
-    v =
-      S.zipWith
-        (\s m -> t - fromIntegral s + alpha' * fromIntegral m)
-        ss (S.take (k - 1) mu)
-    l = mu `index` (k - 1) - 1
-    mu' = S.take l (_dualPartition mu)
-    w =
-      S.zipWith
-        (\s m -> fromIntegral m - t - alpha' * fromIntegral s)
-        (S.fromList [1 .. l]) mu'
-    prod1 = product $ fmap (\x -> x / (x + alpha' - 1)) u
-    prod2 = product $ fmap (\x -> (x + alpha') / x) v
-    prod3 = product $ fmap (\x -> (x + alpha') / x) w
-
-
-_T :: (Fractional a, Eq a, BaseFrac a)
-   => BaseFracType a -> [a] -> [a] -> Seq Int -> a
-_T alpha a b kappa
-  | S.null kappa || kappa !? 0 == Just 0 = 1
-  | prod1_den == 0 = 0
-  | otherwise = prod1_num/prod1_den * prod2 * prod3
-  where
-    alpha' = inject alpha
-    lkappa = S.length kappa - 1
-    kappai = kappa `index` lkappa
-    kappai' = fromIntegral kappai
-    i = fromIntegral lkappa
-    c = kappai' - 1 - i / alpha'
-    d = kappai' * alpha' - i - 1
-    s = fmap fromIntegral (S.fromList [1 .. kappai - 1])
-    kappa' = fromIntegral <$> S.take kappai (_dualPartition kappa)
-    e = S.zipWith (\x y -> d - x * alpha' + y) s kappa'
-    g = fmap (+ 1) e
-    s' = fmap fromIntegral (S.fromList [1 .. lkappa])
-    f = S.zipWith (\x y -> y * alpha' - x - d) s' (fmap fromIntegral kappa)
-    h = fmap (+ alpha') f
-    l = S.zipWith (*) h f
-    prod1_num = product (fmap (+ c) a)
-    prod1_den = product (fmap (+ c) b)
-    prod2 =
-      product $ S.zipWith (\x y -> (y - alpha') * x / y / (x + alpha')) e g
-    prod3 = product $ S.zipWith3 (\x y z -> (z - x) / (z + y)) f h l
 
 
 hypergeoI :: forall a. (Eq a, Fractional a, BaseFrac a)
@@ -204,7 +129,6 @@ jack alpha x dico k beta c t mu jarray kappa nkappa = do
     else do
       entry2 <- readArray jarray (_nkappa dico mu, t - 1)
       writeArray jarray (nkappa, t) (entry1 + beta * x !! (t - 1) ^ c * entry2)
-
 
 hypergeomat ::
      forall a. (Eq a, Fractional a, BaseFrac a)
