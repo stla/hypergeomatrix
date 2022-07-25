@@ -9,7 +9,7 @@ license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Stéphane Laurent
 maintainer:          laurent_step@outlook.fr
-copyright:           2019 Stéphane Laurent
+copyright:           2022 Stéphane Laurent
 category:            Math, Numeric
 build-type:          Simple
 extra-source-files:  README.md
