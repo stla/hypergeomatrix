@@ -65,12 +65,12 @@ hypergeomat 15 2 [3.0, 4.0], [5.0, 6.0, 7.0] [0.1, 0.4]
 We said that the hypergeometric function is defined for a real symmetric 
 matrix or a complex Hermitian matrix $X$. Thus the eigenvalues of $X$ 
 are real. However we do not impose this restriction in `hypergeomatrix`. 
-The user can enter any list of real or complex numbers for the eigen values. 
+The user can enter any list of real or complex numbers for the eigenvalues. 
 
 ### Gaussian rational numbers
 
-The library to use **Gaussian rational numbers**, i.e. complex numbers with 
-a rational real part and a rational imaginary part. The Gaussian rational 
+The library allows to use **Gaussian rational numbers**, i.e. complex numbers 
+with a rational real part and a rational imaginary part. The Gaussian rational 
 number $a + ib$ is obtained with `a +: b`, e.g. `(2%3) +: (5%2)`. The imaginary 
 unit usually denoted by $i$ is represented by `e(4)`:
 
