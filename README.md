@@ -91,7 +91,7 @@ ghci> hypergeomat 3 alpha [a, b] [c] [x1, x2]
 
 For $n = 1$, the hypergeometric function of a matrix argument is known as the 
 [generalized hypergeometric function](https://mathworld.wolfram.com/HypergeometricFunction.html). 
-It does not depend on $\alpha$. The case of $\sideset{\_2^{}}{\_1^{}}F$ is the most known, 
+It does not depend on $\alpha$. The case of $\sideset{\_{2\thinspace}^{}}{\_1^{}}F$ is the most known, 
 this is the Gauss hypergeometric function. Let's check a value. It is known that
 
 $$\sideset{\_{2\thinspace}^{}}{\_1^{}}F \left(\begin{matrix} 1/4, 1/2 \\\\ 3/4\end{matrix}; 80/81\right) = 1.8.$$
