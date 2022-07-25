@@ -94,7 +94,7 @@ For $n = 1$, the hypergeometric function of a matrix argument is known as the
 It does not depend on $\alpha$. The case of $\sideset{\_2^{}}{\_1^{}}F$ is the most known, 
 this is the Gauss hypergeometric function. Let's check a value. It is known that
 
-$$\sideset{\_2^{}}{\_1^{}}F \left(\begin{matrix} 1/4, 1/2 \\\\ 3/4\end{matrix}; 80/81\right) = 1.8.$$
+$$\sideset{\_2^{\thinspace}}{\_1^{}}F \left(\begin{matrix} 1/4, 1/2 \\\\ 3/4\end{matrix}; 80/81\right) = 1.8.$$
 
 Since $80/81$ is close to $1$, the convergence is slow. We compute the truncated series below 
 for $m = 300$.
