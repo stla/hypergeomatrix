@@ -1,6 +1,6 @@
 cabal-version:       2.2
 name:                hypergeomatrix
-version:             1.1.0.0
+version:             1.1.0.1
 synopsis:            Hypergeometric function of a matrix argument
 description:         Evaluation of hypergeometric functions of a matrix argument,
                      following Koev & Edelman's algorithm.
@@ -22,9 +22,9 @@ library
                      , Math.HypergeoMatrix.Internal
                      , Math.HypergeoMatrix.Gaussian
   build-depends:       base >= 4.7 && < 5
-                     , array >= 0.5.4.0 && < 0.6
-                     , containers >= 0.6.5.1 && < 0.7
-                     , cyclotomic >= 1.1.1 && < 1.2
+                     , array >= 0.5.4.0
+                     , containers >= 0.6.5.1
+                     , cyclotomic >= 1.1.1
   other-extensions:    BangPatterns
                      , DefaultSignatures
                      , ScopedTypeVariables
