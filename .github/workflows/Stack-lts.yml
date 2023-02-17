@@ -1,4 +1,4 @@
-name: Stack
+name: Stack-lts
 
 on:
   pull_request:

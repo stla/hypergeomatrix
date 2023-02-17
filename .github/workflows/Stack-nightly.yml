@@ -1,4 +1,4 @@
-name: Stack
+name: Stack-nightly
 
 on:
   pull_request:
