@@ -23,7 +23,7 @@ library
                      , Math.HypergeoMatrix.Gaussian
   build-depends:       base >= 4.7 && < 5
                      , array >= 0.5.4.0
-                     , containers >= 0.6.5.1
+                     , containers >= 0.6.4.1
                      , cyclotomic >= 1.1.1
   other-extensions:    BangPatterns
                      , DefaultSignatures
