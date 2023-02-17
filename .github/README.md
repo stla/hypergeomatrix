@@ -1,7 +1,8 @@
 # hypergeomatrix
 
 <!-- badges: start -->
-[![Check](https://github.com/stla/hypergeomatrix/actions/workflows/GithubAction.yml/badge.svg)](https://github.com/stla/hypergeomatrix/actions/workflows/GithubAction.yml)
+[![Stack-lts](https://github.com/stla/hypergeomatrix/actions/workflows/Stack-lts.yml/badge.svg)](https://github.com/stla/hypergeomatrix/actions/workflows/Stack-lts.yml)
+[![Stack-nightly](https://github.com/stla/hypergeomatrix/actions/workflows/Stack-nightly.yml/badge.svg)](https://github.com/stla/hypergeomatrix/actions/workflows/Stack-nightly.yml)
 <!-- badges: end -->
 
 ## Evaluation of the hypergeometric function of a matrix argument (Koev & Edelman's algorithm)
