@@ -35,7 +35,8 @@ hypergeoI m alpha a b n x =
 summation :: forall a. (Fractional a, Eq a, BaseFrac a)
   => [a] -> [a] -> [a] -> Seq (Maybe Int) -> Int -> BaseFracType a -> Int
      -> a -> Int -> Seq Int -> IOArray (Int, Int) a -> IO a
-summation a b x dico n alpha i z j kappa jarray
+summation _ _ [] _ _ _ _ _ _ _ _ = error "summation: empty list of variables."
+summation a b x@(x0:_) dico n alpha i z j kappa jarray
   = if i == n
     then
       return 0
@@ -53,7 +54,7 @@ summation a b x dico n alpha i z j kappa jarray
               when (nkappa > 1 && (lkappa' == 1 || kappa' !? 1 == Just 0)) $ do
                 entry <- readArray jarray (nkappa - 1, 1)
                 let kap0m1' = fromIntegral (kappa' `index` 0 - 1)
-                    newval = if null x then error "AAAAAAAAAAAAA" else x!!0 * (1 + inject alpha * kap0m1') * entry
+                    newval = x0 * (1 + inject alpha * kap0m1') * entry
                 writeArray jarray (nkappa, 1) newval
               let go' :: Int -> IO ()
                   go' t
@@ -140,12 +141,12 @@ hypergeomat :: forall a. (Eq a, Fractional a, BaseFrac a)
   -> [a] -- ^ lower parameters
   -> [a] -- ^ variables (the eigenvalues)
   -> IO a
-hypergeomat m alpha a b x = do
-  when (null x) $ error "BBBBBBBBBBBBBBBBBBBB"
+hypergeomat _ _ _ _ [] = error "hypergeomat: empty list of variables."
+hypergeomat m alpha a b x@(x0:_) = do
   let n = length x
-  if all (== x!!0) x
+  if all (== x0) x
     then
-      return $ hypergeoI m alpha a b n (x!!0)
+      return $ hypergeoI m alpha a b n x0
     else do
       let pmn = _P m n
           dico = _dico pmn m
