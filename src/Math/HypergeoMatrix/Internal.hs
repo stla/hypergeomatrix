@@ -1,8 +1,9 @@
-{-# LANGUAGE BangPatterns        #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
 {-# LANGUAGE DefaultSignatures    #-}
 {-# LANGUAGE TypeFamilies         #-}
 {-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE TypeOperators        #-}
 
 module Math.HypergeoMatrix.Internal where
 import           Data.Complex
