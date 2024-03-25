@@ -53,7 +53,7 @@ summation a b x dico n alpha i z j kappa jarray
               when (nkappa > 1 && (lkappa' == 1 || kappa' !? 1 == Just 0)) $ do
                 entry <- readArray jarray (nkappa - 1, 1)
                 let kap0m1' = fromIntegral (kappa' `index` 0 - 1)
-                    newval = head x * (1 + inject alpha * kap0m1') * entry
+                    newval = if null x then error "AAAAAAAAAAAAA" else head x * (1 + inject alpha * kap0m1') * entry
                 writeArray jarray (nkappa, 1) newval
               let go' :: Int -> IO ()
                   go' t
@@ -130,8 +130,8 @@ jack alpha x dico k beta c t mu jarray kappa nkappa = do
 
 -- | Hypergeometric function of a matrix argument.
 -- Actually the matrix argument is given by the eigenvalues of the matrix.
--- For a type `a` of real numbers, `BaseFracType a = a`. If `a = Complex b` 
--- is a type of complex numbers, then `BaseFracType a = b`. Thus `alpha` 
+-- For a type \`a\` of real numbers, \`BaseFracType a = a\`. If \`a = Complex b\` 
+-- is a type of complex numbers, then \`BaseFracType a = b\`. Thus the \`alpha\` 
 -- parameter cannot be a complex number.
 hypergeomat :: forall a. (Eq a, Fractional a, BaseFrac a)
   => Int -- ^ truncation weight
@@ -141,6 +141,7 @@ hypergeomat :: forall a. (Eq a, Fractional a, BaseFrac a)
   -> [a] -- ^ variables (the eigenvalues)
   -> IO a
 hypergeomat m alpha a b x = do
+  when (null x) $ error "BBBBBBBBBBBBBBBBBBBB"
   let n = length x
   if all (== head x) x
     then
