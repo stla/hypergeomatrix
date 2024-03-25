@@ -15,3 +15,4 @@
 -------
 * added the upper bounds
 * added the 'TypeOperators' extension
+* use of pattern matching to avoid warning regarding the use of `head`
