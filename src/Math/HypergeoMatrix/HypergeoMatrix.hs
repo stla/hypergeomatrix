@@ -53,7 +53,7 @@ summation a b x dico n alpha i z j kappa jarray
               when (nkappa > 1 && (lkappa' == 1 || kappa' !? 1 == Just 0)) $ do
                 entry <- readArray jarray (nkappa - 1, 1)
                 let kap0m1' = fromIntegral (kappa' `index` 0 - 1)
-                    newval = if null x then error "AAAAAAAAAAAAA" else head x * (1 + inject alpha * kap0m1') * entry
+                    newval = if null x then error "AAAAAAAAAAAAA" else x!!0 * (1 + inject alpha * kap0m1') * entry
                 writeArray jarray (nkappa, 1) newval
               let go' :: Int -> IO ()
                   go' t
@@ -143,9 +143,9 @@ hypergeomat :: forall a. (Eq a, Fractional a, BaseFrac a)
 hypergeomat m alpha a b x = do
   when (null x) $ error "BBBBBBBBBBBBBBBBBBBB"
   let n = length x
-  if all (== head x) x
+  if all (== x!!0) x
     then
-      return $ hypergeoI m alpha a b n (head x)
+      return $ hypergeoI m alpha a b n (x!!0)
     else do
       let pmn = _P m n
           dico = _dico pmn m
